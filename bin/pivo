@@ -2,5 +2,10 @@
 
 require 'pivo'
 require 'yaml'
+require 'tracker_api'
 
 token =  YAML.load(File.read("#{ENV['HOME']}/.pivo.yml"))['token']
+
+client = TrackerApi::Client.new(token: token)
+
+p client.me.email
