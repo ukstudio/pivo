@@ -8,7 +8,7 @@ module Pivo
   class CLI < Thor
     desc "projects", "listing project names"
     def projects
-      puts client.projects.map(&:name).join("\n")
+      say client.projects.map(&:name).join("\n")
     end
 
     desc "stories PROJECT_NAME", "listing project stories"
