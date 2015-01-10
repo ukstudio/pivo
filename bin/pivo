@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'pivo'
+require 'yaml'
 
-p 'Hello, World'
+token =  YAML.load(File.read("#{ENV['HOME']}/.pivo.yml"))['token']
