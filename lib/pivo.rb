@@ -15,7 +15,7 @@ module Pivo
     def stories(project_name)
       project = client.projects.select {|project| project.name == project_name}[0]
       project.stories.each do |story|
-        say "[#{story.current_state}] #{story.name}"
+        say "[#{story.current_state}]\t#{story.name}\t#{story.url}"
       end
     end
 
