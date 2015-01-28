@@ -17,14 +17,14 @@ $ pivo projects
 ### Listing stories
 
 ```shell
-$ pivo stories PROJECT_NAME
+$ pivo stories all PROJECT_NAME
 ```
 
 #### with peco
 
 ```zsh
 function pivo-open() {
-  local url="$(pivo stories $1 | peco --query "$LBUFFER" | awk '{print $NF}')"
+  local url="$(pivo stories all $1 | peco --query "$LBUFFER" | awk '{print $NF}')"
   open ${url}
 }
 ```
