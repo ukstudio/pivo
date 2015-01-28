@@ -14,6 +14,15 @@ module Pivo
       end
     end
 
+    desc "stories me PROJECT_NAME", "listing my stories"
+    def me(project_name)
+      me = client.me
+      project = client.projects.select {|project| project.name == project_name}[0]
+      project.stories(filter: "mywork:\"#{me.name}\"").each do |story|
+        say "[#{story.current_state}]\t#{story.name}\t#{story.url}"
+      end
+    end
+
     private
 
     def client
