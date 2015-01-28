@@ -17,9 +17,31 @@ module Pivo
     end
   end
 
+  class Velocity < Thor
+    include ApiClient
+
+    desc "velocity me PROJECT_NAME VELOCITY", "listing my stories each velocity"
+    def me(project_name, velocity)
+      me = client.me
+      project = client.projects.select {|project| project.name == project_name}[0]
+      stories = project.stories(filter: "mywork:\"#{me.name}\"")
+
+      point = 0
+      stories.each do |story|
+        if point + story.estimate > velocity.to_i
+          say "\n[#{point}]=========================================================================\n\n"
+          point = story.estimate
+        else
+          point += story.estimate
+        end
+        say "[#{story.estimate}][#{story.current_state}]\t#{story.name}\t#{story.url}"
+      end
+    end
+  end      
+
   class Stories < Thor
     include ApiClient
-    
+
     desc "stories all PROJECT_NAME", "listing all stories"
     def all(project_name)
       project = client.projects.select {|project| project.name == project_name}[0]
@@ -56,5 +78,8 @@ module Pivo
 
     desc "stories SUBCOMMAND ARGS", "listing stories"
     subcommand "stories", Stories
+
+    desc "velocity SUBCOMMAND ARGS", "listing stories each velocity"
+    subcommand "velocity", Velocity
   end
 end
