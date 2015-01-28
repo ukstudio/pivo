@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["y.akamatsu@ukstudio.jp"]
   spec.summary       = %q{for pivotal tracker}
   spec.description   = %q{for pivotal tracker}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/ukstudio/pivo"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
