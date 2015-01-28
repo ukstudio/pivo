@@ -5,6 +5,25 @@ require 'tracker_api'
 require 'thor'
 
 module Pivo
+  class Stories < Thor
+    desc "stories all PROJECT_NAME", "listing all stories"
+    def all(project_name)
+      project = client.projects.select {|project| project.name == project_name}[0]
+      project.stories.each do |story|
+        say "[#{story.current_state}]\t#{story.name}\t#{story.url}"
+      end
+    end
+
+    private
+
+    def client
+      TrackerApi::Client.new(token: token)
+    end
+
+    def token
+      YAML.load(File.read("#{ENV['HOME']}/.pivo.yml"))['token']
+    end
+  end
   class CLI < Thor
     desc "projects", "listing project names"
     def projects
@@ -18,6 +37,9 @@ module Pivo
         say "[#{story.current_state}]\t#{story.name}\t#{story.url}"
       end
     end
+
+    desc "stories SUBCOMMAND ARGS", "listing stories"
+    subcommand "stories", Stories
 
     private
 
