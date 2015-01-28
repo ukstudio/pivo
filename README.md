@@ -1,6 +1,33 @@
 # Pivo
 
-TODO: Write a gem description
+## Usage
+
+Add [Pivotal Trackert](http://www.pivotaltracker.com/) API token to $HOME/.pivo.yml
+
+```yaml
+token: aaaaaaaaaaaaaaaa
+```
+
+### Listing projects
+
+```shell
+$ pivo projects
+```
+
+### Listing stories
+
+```shell
+$ pivo stories PROJECT_NAME
+```
+
+#### with peco
+
+```zsh
+function pivo-open() {
+  local url="$(pivo stories $1 | peco --query "$LBUFFER" | awk '{print $NF}')"
+  open ${url}
+}
+```
 
 ## Installation
 
