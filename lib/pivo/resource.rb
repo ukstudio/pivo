@@ -11,6 +11,16 @@ module Resource
     end
   end
 
+  class Project
+    extend ApiClient
+
+    class << self
+      def find_by_name(name)
+        client.projects.select {|project| project.name == name}[0]
+      end
+    end
+  end
+
   class Story
     def initialize(story)
       @story = story

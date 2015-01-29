@@ -11,7 +11,7 @@ module Pivo
     desc "velocity me PROJECT_NAME VELOCITY", "listing my stories each velocity"
     def me(project_name, velocity)
       me = client.me
-      project = client.projects.select {|project| project.name == project_name}[0]
+      project = Resource::Project.find_by_name(project_name)
       stories = project.stories(filter: "mywork:\"#{me.name}\"")
 
       point = 0
@@ -32,7 +32,7 @@ module Pivo
 
     desc "stories all PROJECT_NAME", "listing all stories"
     def all(project_name)
-      project = client.projects.select {|project| project.name == project_name}[0]
+      project = Resource::Project.find_by_name(project_name)
       project.stories.each do |story|
         say "[#{story.current_state}]\t#{story.name}\t#{story.url}"
       end
@@ -41,7 +41,7 @@ module Pivo
     desc "stories me PROJECT_NAME", "listing my stories"
     def me(project_name)
       me = client.me
-      project = client.projects.select {|project| project.name == project_name}[0]
+      project = Resource::Project.find_by_name(project_name)
       project.stories(filter: "mywork:\"#{me.name}\"").each do |story|
         say Resource::Story.new(story).to_s
       end
@@ -58,7 +58,7 @@ module Pivo
 
     desc "stories PROJECT_NAME", "listing project stories"
     def stories(project_name)
-      project = client.projects.select {|project| project.name == project_name}[0]
+      project = Resource::Project.find_by_name(project_name)
       project.stories.each do |story|
         say Resource::Story.new(story).to_s
       end
