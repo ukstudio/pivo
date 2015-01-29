@@ -2,11 +2,11 @@ require 'yaml'
 require 'tracker_api'
 require 'thor'
 
-require 'pivo/api_client'
+require 'pivo/resource'
 
 module Pivo
   class Velocity < Thor
-    include ApiClient
+    include Resource::ApiClient
 
     desc "velocity me PROJECT_NAME VELOCITY", "listing my stories each velocity"
     def me(project_name, velocity)
@@ -22,13 +22,13 @@ module Pivo
         else
           point += story.estimate
         end
-        say "[#{story.estimate}][#{story.current_state}]\t#{story.name}\t#{story.url}"
+        say Resource::Story.new(story).to_s
       end
     end
   end
 
   class Stories < Thor
-    include ApiClient
+    include Resource::ApiClient
 
     desc "stories all PROJECT_NAME", "listing all stories"
     def all(project_name)
@@ -43,13 +43,13 @@ module Pivo
       me = client.me
       project = client.projects.select {|project| project.name == project_name}[0]
       project.stories(filter: "mywork:\"#{me.name}\"").each do |story|
-        say "[#{story.current_state}]\t#{story.name}\t#{story.url}"
+        say Resource::Story.new(story).to_s
       end
     end
   end
 
   class CLI < Thor
-    include ApiClient
+    include Resource::ApiClient
 
     desc "projects", "listing project names"
     def projects
@@ -60,7 +60,7 @@ module Pivo
     def stories(project_name)
       project = client.projects.select {|project| project.name == project_name}[0]
       project.stories.each do |story|
-        say "[#{story.current_state}]\t#{story.name}\t#{story.url}"
+        say Resource::Story.new(story).to_s
       end
     end
 
