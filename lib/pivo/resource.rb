@@ -11,6 +11,18 @@ module Resource
     end
   end
 
+  class Me
+    include ApiClient
+
+    def initialize
+      @me = client.me
+    end
+
+    def name
+      @me.name
+    end
+  end
+
   class Project
     extend ApiClient
 

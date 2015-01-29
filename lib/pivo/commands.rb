@@ -10,7 +10,7 @@ module Pivo
 
     desc "velocity me PROJECT_NAME VELOCITY", "listing my stories each velocity"
     def me(project_name, velocity)
-      me = client.me
+      me = Resource::Me.new
       project = Resource::Project.find_by_name(project_name)
       stories = project.stories(filter: "mywork:\"#{me.name}\"")
 
@@ -40,7 +40,7 @@ module Pivo
 
     desc "stories me PROJECT_NAME", "listing my stories"
     def me(project_name)
-      me = client.me
+      me = Resource::Me.new
       project = Resource::Project.find_by_name(project_name)
       project.stories(filter: "mywork:\"#{me.name}\"").each do |story|
         say Resource::Story.new(story).to_s
