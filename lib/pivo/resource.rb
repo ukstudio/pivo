@@ -27,6 +27,10 @@ module Resource
     extend ApiClient
 
     class << self
+      def all
+        client.projects
+      end
+
       def find_by_name(name)
         client.projects.select {|project| project.name == name}[0]
       end

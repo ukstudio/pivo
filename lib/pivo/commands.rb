@@ -53,7 +53,7 @@ module Pivo
 
     desc "projects", "listing project names"
     def projects
-      say client.projects.map(&:name).join("\n")
+      say Resource::Project.all.map(&:name).join("\n")
     end
 
     desc "stories PROJECT_NAME", "listing project stories"
