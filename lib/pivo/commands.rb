@@ -2,19 +2,9 @@ require 'yaml'
 require 'tracker_api'
 require 'thor'
 
+require 'pivo/api_client'
+
 module Pivo
-  module ApiClient
-    private
-
-    def client
-      TrackerApi::Client.new(token: token)
-    end
-
-    def token
-      YAML.load(File.read("#{ENV['HOME']}/.pivo.yml"))['token']
-    end
-  end
-
   class Velocity < Thor
     include ApiClient
 
