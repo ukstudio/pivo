@@ -6,8 +6,6 @@ require 'pivo/resource'
 
 module Pivo
   class Velocity < Thor
-    include Resource::ApiClient
-
     desc "velocity me PROJECT_NAME VELOCITY", "listing my stories each velocity"
     def me(project_name, velocity)
       me = Resource::Me.new
@@ -28,8 +26,6 @@ module Pivo
   end
 
   class Stories < Thor
-    include Resource::ApiClient
-
     desc "stories all PROJECT_NAME", "listing all stories"
     def all(project_name)
       project = Resource::Project.find_by_name(project_name)
@@ -49,8 +45,6 @@ module Pivo
   end
 
   class CLI < Thor
-    include Resource::ApiClient
-
     desc "projects", "listing project names"
     def projects
       say Resource::Project.all.map(&:name).join("\n")
