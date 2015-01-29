@@ -37,7 +37,7 @@ module Pivo
         say "[#{story.estimate}][#{story.current_state}]\t#{story.name}\t#{story.url}"
       end
     end
-  end      
+  end
 
   class Stories < Thor
     include ApiClient
