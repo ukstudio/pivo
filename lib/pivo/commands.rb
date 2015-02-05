@@ -10,7 +10,7 @@ module Pivo
     def me(project_name, velocity)
       me = Resource::Me.new
       project = Resource::Project.find_by_name(project_name)
-      stories = project.stories(filter: "mywork:\"#{me.name}\"")
+      stories = project.stories(filter: "owner:\"#{me.name}\"")
 
       point = 0
       stories.each do |story|
