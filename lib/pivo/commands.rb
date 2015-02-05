@@ -1,6 +1,7 @@
 require 'yaml'
 require 'tracker_api'
 require 'thor'
+require 'date'
 
 require 'pivo/resource'
 
@@ -12,13 +13,23 @@ module Pivo
       project = Resource::Project.find_by_name(project_name)
       stories = project.stories(filter: "owner:\"#{me.name}\"")
 
+      days = %w(Sunday Monday Tuesday Wednesday Thursday Friday Saturday)
       week_start_day = project.week_start_day
-      say week_start_day
+      index_of_start_day = days.index(week_start_day)
+      current_day = DateTime.now.wday
+      diff = current_day-index_of_start_day
+      diff = 7 - diff if diff < 0
+
+      current_iteration_start_date = DateTime.now - diff
 
       point = 0
-      stories.each do |story|
+      iteration_index = 1
+      say "\n===#{current_iteration_start_date.strftime('%Y-%m-%d %a')}=========================================================================\n\n"
+      stories.each do |story |
         if point + story.estimate > velocity.to_i
-          say "\n[#{point}]=========================================================================\n\n"
+          say "total point: #{point}"
+          say "\n===#{(current_iteration_start_date + iteration_index*7).strftime('%Y-%m-%d %a')}=========================================================================\n\n"
+          iteration_index += 1
           point = story.estimate
         else
           point += story.estimate
