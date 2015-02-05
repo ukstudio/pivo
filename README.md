@@ -1,5 +1,20 @@
 # Pivo
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'pivo'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install pivo
 ## Usage
 
 Add [Pivotal Trackert](http://www.pivotaltracker.com/) API token to $HOME/.pivo.yml
@@ -18,6 +33,7 @@ $ pivo projects
 
 ```shell
 $ pivo stories all PROJECT_NAME
+$ pivo stories all PROJECT_NAME --status unstarted # filtering by status
 ```
 
 ### Listing mywork
@@ -25,6 +41,7 @@ $ pivo stories all PROJECT_NAME
 
 ```shell
 $ pivo stories me PROJECT_NAME
+$ pivo stories me PROJECT_NAME --status unstarted # filtering by status
 ```
 
 #### with peco
@@ -36,29 +53,9 @@ function pivo-open() {
 }
 ```
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'pivo'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install pivo
-
-## Usage
-
-TODO: Write usage instructions here
-
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/pivo/fork )
+1. Fork it ( https://github.com/ukstudio/pivo/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
