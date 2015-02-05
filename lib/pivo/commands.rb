@@ -26,7 +26,7 @@ module Pivo
   end
 
   class Stories < Thor
-    desc "stories all PROJECT_NAME", "listing all stories"
+    desc "all PROJECT_NAME", "listing all stories"
     def all(project_name)
       project = Resource::Project.find_by_name(project_name)
       project.stories.each do |story|
@@ -34,7 +34,7 @@ module Pivo
       end
     end
 
-    desc "stories me PROJECT_NAME", "listing my stories"
+    desc "me PROJECT_NAME", "listing my stories"
     def me(project_name)
       me = Resource::Me.new
       project = Resource::Project.find_by_name(project_name)
