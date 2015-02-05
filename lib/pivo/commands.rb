@@ -12,6 +12,9 @@ module Pivo
       project = Resource::Project.find_by_name(project_name)
       stories = project.stories(filter: "owner:\"#{me.name}\"")
 
+      week_start_day = project.week_start_day
+      say week_start_day
+
       point = 0
       stories.each do |story|
         if point + story.estimate > velocity.to_i
