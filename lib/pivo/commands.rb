@@ -43,24 +43,26 @@ module Pivo
 
     desc "all PROJECT_NAME", "listing all stories"
     option :status, type: 'string', desc: "unscheduled, unstarted, planned, rejected, started, finished, delivered, accepted"
+    option :format, type: 'string', desc: "default, md"
     def all(project_name)
       project = Resource::Project.find_by_name(project_name)
       filtering_options = {}
       filtering_options.merge!(with_state: options[:status]) if options[:status]
       project.stories(filtering_options).each do |story|
-        say "[#{story.current_state}]\t#{story.name}\t#{story.url}"
+        say Resource::Story.new(story, (options[:format] || 'default')).to_s
       end
     end
 
     desc "me PROJECT_NAME", "listing my stories"
     option :status, type: 'string', desc: "unscheduled, unstarted, planned, rejected, started, finished, delivered, accepted"
+    option :format, type: 'string', desc: "default, md"
     def me(project_name)
       me = Resource::Me.new
       project = Resource::Project.find_by_name(project_name)
       filtering_options = {}
       filtering_options.merge!(filter: "state:#{options[:status]} owner:\"#{me.name}\"")
       project.stories(filtering_options).each do |story|
-        say Resource::Story.new(story).to_s
+        say Resource::Story.new(story, (options[:format] || 'default')).to_s
       end
     end
   end
