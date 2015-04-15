@@ -36,19 +36,4 @@ module Resource
       end
     end
   end
-
-  class Story
-    def initialize(story, format_option)
-      @story = story
-      @format_option = format_option
-    end
-
-    def to_s
-      if @format_option == 'md'
-        "[#{@story.name}](#{@story.url})"
-      else
-        "[#{@story.estimate}][#{@story.current_state}]\t#{@story.name}\t#{@story.url}"
-      end
-    end
-  end
 end

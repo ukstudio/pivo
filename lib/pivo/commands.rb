@@ -4,6 +4,7 @@ require 'thor'
 require 'date'
 
 require 'pivo/resource'
+require 'pivo/formatters'
 
 module Pivo
   class Stories < Thor
@@ -14,8 +15,11 @@ module Pivo
       project = Resource::Project.find_by_name(project_name)
       filtering_options = {}
       filtering_options.merge!(with_state: options[:status]) if options[:status]
-      project.stories(filtering_options).each do |story|
-        say Resource::Story.new(story, (options[:format] || 'default')).to_s
+      case options[:format]
+      when 'md'
+        say Formatters::Stories::Markdown.new(project.stories(filtering_options)).to_s
+      else
+        say Formatters::Stories::Default.new(project.stories(filtering_options)).to_s
       end
     end
 
@@ -27,8 +31,11 @@ module Pivo
       project = Resource::Project.find_by_name(project_name)
       filtering_options = {}
       filtering_options.merge!(filter: "state:#{options[:status]} owner:\"#{me.name}\"")
-      project.stories(filtering_options).each do |story|
-        say Resource::Story.new(story, (options[:format] || 'default')).to_s
+      case options[:format]
+      when 'md'
+        say Formatters::Stories::Markdown.new(project.stories(filtering_options)).to_s
+      else
+        say Formatters::Stories::Default.new(project.stories(filtering_options)).to_s
       end
     end
   end
@@ -42,9 +49,7 @@ module Pivo
     desc "stories PROJECT_NAME", "listing project stories"
     def stories(project_name)
       project = Resource::Project.find_by_name(project_name)
-      project.stories.each do |story|
-        say Resource::Story.new(story).to_s
-      end
+      say Formatters::Stories::Default.new(project.stories(filtering_options)).to_s
     end
 
     desc "stories SUBCOMMAND ARGS", "listing stories"
