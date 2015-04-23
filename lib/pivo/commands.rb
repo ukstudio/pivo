@@ -23,6 +23,22 @@ module Pivo
       end
     end
 
+    desc "iteration PROJECT_NAME", "listing stories of iteration"
+    option :iterationnumber, type: 'numeric', default: 0, desc: "current iteration number = 0, prev iterationn number = 1, prev prev = 2..."
+    option :format, type: 'string', desc: "default, md"
+    def iteration(project_name)
+      project = Resource::Project.find_by_name(project_name)
+      iteration_number = project.current_iteration_number
+      iteration_number -= options[:iterationnumber] if options[:iterationnumber]
+      iteration = project.iterations(number: iteration_number).first
+      case options[:format]
+      when 'md'
+        say Formatters::Stories::Markdown.new(iteration.stories).to_s
+      else
+        say Formatters::Stories::Default.new(iteration.stories).to_s
+      end
+    end
+
     desc "me PROJECT_NAME", "listing my stories"
     option :status, type: 'string', desc: "unscheduled, unstarted, planned, rejected, started, finished, delivered, accepted"
     option :format, type: 'string', desc: "default, md"
