@@ -46,7 +46,7 @@ module Pivo
       me = Resource::Me.new
       project = Resource::Project.find_by_name(project_name)
       filtering_options = {}
-      filtering_options.merge!(filter: "state:#{options[:status]} owner:\"#{me.name}\"")
+      filtering_options.merge!(filter: "state:#{options[:status]} mywork:\"#{me.name}\"")
       case options[:format]
       when 'md'
         say Formatters::Stories::Markdown.new(project.stories(filtering_options)).to_s
