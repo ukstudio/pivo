@@ -10,16 +10,21 @@ module Pivo
   class Stories < Thor
     desc "all PROJECT_NAME", "listing all stories"
     option :status, type: 'string', desc: "unscheduled, unstarted, planned, rejected, started, finished, delivered, accepted"
+    option :mywork, type: 'string', desc: "listing mywork storeis of the specified user"
     option :format, type: 'string', desc: "default, md"
     def all(project_name)
       project = Resource::Project.find_by_name(project_name)
-      filtering_options = {}
-      filtering_options.merge!(with_state: options[:status]) if options[:status]
+      filtering_options = []
+      filtering_options << "state:#{options[:status]}" if options[:status]
+      if options[:mywork]
+        filtering_options << "mywork:#{options[:mywork]}" if options[:mywork]
+      end
+      options = filtering_options.empty? ? {} : {filter: filtering_options.join(" ")}
       case options[:format]
       when 'md'
-        say Formatters::Stories::Markdown.new(project.stories(filtering_options)).to_s
+        say Formatters::Stories::Markdown.new(project.stories(options)).to_s
       else
-        say Formatters::Stories::Default.new(project.stories(filtering_options)).to_s
+        say Formatters::Stories::Default.new(project.stories(options)).to_s
       end
     end
 
