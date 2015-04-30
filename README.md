@@ -40,15 +40,15 @@ $ pivo stories all PROJECT_NAME --status unstarted # filtering by status
 
 
 ```shell
-$ pivo stories me PROJECT_NAME
-$ pivo stories me PROJECT_NAME --status unstarted # filtering by status
+$ pivo stories all PROJECT_NAME --mywork ukstudio
+$ pivo stories all PROJECT_NAME --mywork ukstudio --status unstarted # filtering by status
 ```
 
 #### with peco
 
 ```zsh
 function pivo-open() {
-  local url="$(pivo stories me $1 | peco --query "$LBUFFER" | awk '{print $NF}')"
+  local url="$(pivo stories all PROJECT_NAME --mywork ukstudio $1 | peco --query "$LBUFFER" | awk '{print $NF}')"
   open ${url}
 }
 ```
