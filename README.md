@@ -44,13 +44,19 @@ $ pivo stories all PROJECT_NAME --mywork ukstudio
 $ pivo stories all PROJECT_NAME --mywork ukstudio --status unstarted # filtering by status
 ```
 
-#### with peco
+##### with peco
 
 ```zsh
 function pivo-open() {
   local url="$(pivo stories all PROJECT_NAME --mywork ukstudio $1 | peco --query "$LBUFFER" | awk '{print $NF}')"
   open ${url}
 }
+```
+
+### Create new story
+
+```shell
+$ pivo stories add PROJECT_NAME --name 'new story name' --description 'new story description'
 ```
 
 ## Contributing
