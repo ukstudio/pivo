@@ -28,6 +28,15 @@ module Pivo
       end
     end
 
+    desc "add PROJECT_NAME", "create new story"
+    option :name, type: 'string', desc: "new story's name", required: true
+    option :description, type: 'string', desc: "new story's description", default: ""
+    def add(project_name)
+      project = Resource::Project.find_by_name(project_name)
+      story = project.create_story(name: options[:name], description: options[:description])
+      say story.url
+    end
+
     desc "iteration PROJECT_NAME", "listing stories of iteration"
     option :iterationnumber, type: 'numeric', default: 0, desc: "current iteration number = 0, prev iterationn number = 1, prev prev = 2..."
     option :format, type: 'string', desc: "default, md"
