@@ -19,12 +19,12 @@ module Pivo
       if options[:mywork]
         filtering_options << "mywork:#{options[:mywork]}" if options[:mywork]
       end
-      options = filtering_options.empty? ? {} : {filter: filtering_options.join(" ")}
+      request_params = filtering_options.empty? ? {} : {filter: filtering_options.join(" ")}
       case options[:format]
       when 'md'
-        say Formatters::Stories::Markdown.new(project.stories(options)).to_s
+        say Formatters::Stories::Markdown.new(project.stories(request_params)).to_s
       else
-        say Formatters::Stories::Default.new(project.stories(options)).to_s
+        say Formatters::Stories::Default.new(project.stories(request_params)).to_s
       end
     end
 
