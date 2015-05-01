@@ -11,7 +11,7 @@ module Pivo
     desc "all PROJECT_NAME", "listing all stories"
     option :status, type: 'string', desc: "unscheduled, unstarted, planned, rejected, started, finished, delivered, accepted"
     option :mywork, type: 'string', desc: "listing mywork storeis of the specified user"
-    option :format, type: 'string', desc: "default, md"
+    option :format, type: 'string', desc: "default, md, kanban"
     def all(project_name)
       project = Resource::Project.find_by_name(project_name)
       filtering_options = []
@@ -23,6 +23,8 @@ module Pivo
       case options[:format]
       when 'md'
         say Formatters::Stories::Markdown.new(project.stories(request_params)).to_s
+      when 'kanban'
+        say Formatters::Stories::Kanban.new(project.stories(request_params)).to_s
       else
         say Formatters::Stories::Default.new(project.stories(request_params)).to_s
       end
@@ -39,7 +41,7 @@ module Pivo
 
     desc "iteration PROJECT_NAME", "listing stories of iteration"
     option :iterationnumber, type: 'numeric', default: 0, desc: "current iteration number = 0, prev iterationn number = 1, prev prev = 2..."
-    option :format, type: 'string', desc: "default, md"
+    option :format, type: 'string', desc: "default, md, kanban"
     def iteration(project_name)
       project = Resource::Project.find_by_name(project_name)
       iteration_number = project.current_iteration_number
@@ -48,6 +50,8 @@ module Pivo
       case options[:format]
       when 'md'
         say Formatters::Stories::Markdown.new(iteration.stories).to_s
+      when 'kanban'
+        say Formatters::Stories::Kanban.new(iteration.stories).to_s
       else
         say Formatters::Stories::Default.new(iteration.stories).to_s
       end

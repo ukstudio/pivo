@@ -23,4 +23,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "tracker_api", '>=0.2.9'
   spec.add_dependency "thor"
+  spec.add_dependency "kosi"
 end
