@@ -9,16 +9,12 @@ require 'pivo/formatters'
 module Pivo
   class Stories < Thor
     desc "all PROJECT_NAME", "listing all stories"
-    option :status, type: 'string', desc: "unscheduled, unstarted, planned, rejected, started, finished, delivered, accepted"
-    option :mywork, type: 'string', desc: "listing mywork storeis of the specified user"
+    option :query, type: 'string',  desc: "query for searching stories"
     option :format, type: 'string', desc: "default, md, kanban"
     def all(project_name)
       project = Resource::Project.find_by_name(project_name)
       filtering_options = []
-      filtering_options << "state:#{options[:status]}" if options[:status]
-      if options[:mywork]
-        filtering_options << "mywork:#{options[:mywork]}" if options[:mywork]
-      end
+      filtering_options << options[:query] if options[:query]
       request_params = filtering_options.empty? ? {} : {filter: filtering_options.join(" ")}
       case options[:format]
       when 'md'
