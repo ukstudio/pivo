@@ -8,7 +8,7 @@ module Pivo
 
         def to_s
           @stories.map {|story|
-            "[#{story.name}](#{story.url})"
+            "[#{story.estimate}][#{story.name}](#{story.url})"
           }.join("\n")
         end
       end
