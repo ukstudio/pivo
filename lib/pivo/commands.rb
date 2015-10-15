@@ -19,6 +19,8 @@ module Pivo
       case options[:format]
       when 'md'
         say Formatters::Stories::Markdown.new(project.stories(request_params)).to_s
+      when 'md-table'
+        say Formatters::Stories::MarkdownTable.new(project.stories(request_params)).to_s
       when 'kanban'
         say Formatters::Stories::Kanban.new(project.stories(request_params)).to_s
       else
@@ -46,6 +48,8 @@ module Pivo
       case options[:format]
       when 'md'
         say Formatters::Stories::Markdown.new(iteration.stories).to_s
+      when 'md-table'
+        say Formatters::Stories::MarkdownTable.new(iteration.stories).to_s
       when 'kanban'
         say Formatters::Stories::Kanban.new(iteration.stories).to_s
       else
